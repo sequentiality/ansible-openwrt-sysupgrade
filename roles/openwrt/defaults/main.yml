@@ -1,0 +1,31 @@
+---
+# defaults file for openwrt
+
+openwrt_downloads_url: https://downloads.openwrt.org
+openwrt_branch: snapshots
+# openwrt_branch: releases/19.07.7
+openwrt_target: ramips
+openwrt_subtarget: mt7621
+openwrt_device: xiaomi_mi-router-4
+openwrt_sysupgrade_bin: "{{ openwrt_downloads_url }}/{{ openwrt_branch }}/targets/{{ openwrt_target }}/{{ openwrt_subtarget }}/openwrt-{{ openwrt_target }}-{{ openwrt_subtarget }}-{{ openwrt_device }}-squashfs-sysupgrade.bin"
+openwrt_sha256sums: "{{ openwrt_downloads_url }}/{{ openwrt_branch }}/targets/{{ openwrt_target }}/{{ openwrt_subtarget }}/sha256sums"
+
+openwrt_opkg_adblock:
+  - adblock
+  - luci-app-adblock
+  - curl
+
+openwrt_opkg_prometheus_node_exporter_lua:
+  - prometheus-node-exporter-lua
+  - prometheus-node-exporter-lua-nat_traffic
+  - prometheus-node-exporter-lua-netstat
+  - prometheus-node-exporter-lua-openwrt
+  - prometheus-node-exporter-lua-textfile
+  - prometheus-node-exporter-lua-wifi
+  - prometheus-node-exporter-lua-wifi_stations
+
+openwrt_opkg_zsh:
+  - zsh
+  - ca-certificates
+  - git-http
+  # - curl

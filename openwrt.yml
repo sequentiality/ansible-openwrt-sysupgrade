@@ -1,0 +1,28 @@
+---
+- hosts: all
+  gather_facts: no
+  ignore_unreachable: yes
+  tasks:
+    # https://openwrt.org/docs/guide-user/services/python
+    - name: Install python3
+      raw: opkg update && opkg install python3
+      tags:
+        - sysupgrade
+
+    - import_role:
+        name: openwrt
+        tasks_from: sysupgrade
+      tags:
+        - sysupgrade
+
+    # https://openwrt.org/docs/guide-user/services/python
+    - name: Install python3
+      raw: opkg update && opkg install python3
+      tags:
+        - bootstrap
+
+    - import_role:
+        name: openwrt
+        tasks_from: bootstrap
+      tags:
+        - bootstrap

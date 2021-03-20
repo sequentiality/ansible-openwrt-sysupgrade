@@ -1,0 +1,34 @@
+# https://openwrt.org/docs/guide-user/installation/sysupgrade.cli
+- name: Upgrade OpenWrt firmware
+  block:
+    - name: Download firmware upgrade image and checksum
+      get_url:
+        url: "{{ item }}"
+        dest: /tmp
+      with_items:
+        - "{{ openwrt_sysupgrade_bin }}"
+        - "{{ openwrt_sha256sums }}"
+
+    - name: Set root shell to ash
+      # ansible.builtin.user:
+      #   name: root
+      #   shell: /bin/ash
+      ansible.builtin.replace:
+        path: /etc/passwd
+        regexp: "/usr/bin/zsh"
+        replace: "/bin/ash"
+
+    - name: Verify firmware checksum
+      ansible.builtin.shell: sha256sum -c sha256sums 2>/dev/null | grep OK
+      args:
+        chdir: /tmp
+      register: result
+      failed_when: result.rc != 0
+
+    - name: Flash firmware
+      ansible.builtin.shell: sysupgrade -q /tmp/*.bin
+
+    - meta: reset_connection
+
+    - pause:
+        minutes: 2

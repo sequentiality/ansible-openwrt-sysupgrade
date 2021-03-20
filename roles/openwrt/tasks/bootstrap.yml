@@ -1,0 +1,46 @@
+# https://docs.ansible.com/ansible/latest/collections/community/general/opkg_module.html
+- name: Install luci overwriting preexisting config files
+  community.general.opkg:
+    name: luci
+    force: maintainer
+    update_cache: yes
+
+- name: Install adblock
+  community.general.opkg:
+    name: "{{ item }}"
+  with_items: "{{ openwrt_opkg_adblock }}"
+
+- name: Install prometheus-node-exporter-lua
+  community.general.opkg:
+    name: "{{ item }}"
+  with_items: "{{ openwrt_opkg_prometheus_node_exporter_lua }}"
+
+- name: Install oh-my-zsh
+  block:
+    - name: Install zsh
+      community.general.opkg:
+        name: "{{ item }}"
+      with_items: "{{ openwrt_opkg_zsh }}"
+
+    - name: Set root shell to zsh
+      # ansible.builtin.user:
+      #   name: root
+      #   shell: /usr/bin/zsh
+      ansible.builtin.replace:
+        path: /etc/passwd
+        regexp: "/bin/ash"
+        replace: "/usr/bin/zsh"
+
+    - name: Download oh-my-zsh install script
+      get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: /tmp
+
+    - name: Install oh-my-zsh
+      ansible.builtin.command: sh /tmp/install.sh --unattended
+
+- name: Reboot
+  ansible.builtin.command: reboot
+
+- name: Reset connection
+  meta: reset_connection
