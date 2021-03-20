@@ -41,6 +41,7 @@
 
 - name: Reboot
   ansible.builtin.command: reboot
+  ignore_errors: yes
 
 - name: Reset connection
   meta: reset_connection
