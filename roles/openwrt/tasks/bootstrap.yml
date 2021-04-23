@@ -4,6 +4,8 @@
     name: luci
     force: maintainer
     update_cache: yes
+  when:
+    - openwrt_version == 'SNAPSHOT'
 
 - name: Install adblock
   community.general.opkg:
@@ -40,8 +42,11 @@
       ansible.builtin.command: sh /tmp/install.sh --unattended
 
 - name: Reboot
-  ansible.builtin.command: reboot
-  ignore_errors: yes
+  block:
+    - name: Reboot
+      ansible.builtin.command: reboot
+      ignore_errors: yes
 
-- name: Reset connection
-  meta: reset_connection
+    - meta: reset_connection
+  when:
+    - openwrt_version == 'SNAPSHOT'

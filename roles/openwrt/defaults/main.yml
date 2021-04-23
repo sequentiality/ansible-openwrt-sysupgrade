@@ -1,14 +1,14 @@
 ---
 # defaults file for openwrt
 
-openwrt_downloads_url: https://downloads.openwrt.org
-openwrt_branch: snapshots
-# openwrt_branch: releases/19.07.7
-openwrt_target: ramips
-openwrt_subtarget: mt7621
+openwrt_platform: ramips/mt7621
 openwrt_device: xiaomi_mi-router-4
-openwrt_sysupgrade_bin: "{{ openwrt_downloads_url }}/{{ openwrt_branch }}/targets/{{ openwrt_target }}/{{ openwrt_subtarget }}/openwrt-{{ openwrt_target }}-{{ openwrt_subtarget }}-{{ openwrt_device }}-squashfs-sysupgrade.bin"
-openwrt_sha256sums: "{{ openwrt_downloads_url }}/{{ openwrt_branch }}/targets/{{ openwrt_target }}/{{ openwrt_subtarget }}/sha256sums"
+openwrt_version: 21.02.0-rc1
+
+openwrt_downloads_url: https://downloads.openwrt.org
+openwrt_downloads_dir: "{{ openwrt_downloads_url }}/{% if openwrt_version == 'SNAPSHOT' %}snapshots{% else %}releases/{{ openwrt_version }}{% endif %}/targets/{{ openwrt_platform }}"
+openwrt_sysupgrade_bin: "{{ openwrt_downloads_dir }}/openwrt-{% if openwrt_version == 'SNAPSHOT' %}{% else %}{{ openwrt_version }}-{% endif %}{{ openwrt_platform | replace('/','-') }}-{{ openwrt_device }}-squashfs-sysupgrade.bin"
+openwrt_sha256sums: "{{ openwrt_downloads_dir }}/sha256sums"
 
 openwrt_opkg_adblock:
   - adblock
