@@ -2,7 +2,7 @@
 Upgrading OpenWrt firmware using Ansible
 
 ## Change defaults
-Set branch, target, subtarget and device:
+Set platform, device and version:
 ```
 openwrt_platform: ramips/mt7621
 openwrt_device: xiaomi_mi-router-4
