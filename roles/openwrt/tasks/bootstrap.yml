@@ -4,8 +4,6 @@
     name: luci
     force: maintainer
     update_cache: yes
-  when:
-    - openwrt_version == 'SNAPSHOT'
 
 - name: Install adblock
   community.general.opkg:
@@ -41,6 +39,10 @@
     - name: Install oh-my-zsh
       ansible.builtin.command: sh /tmp/install.sh --unattended
 
+- name: Mass upgrade of all “upgradable” packages
+  ansible.builtin.shell: opkg update && opkg list-upgradable | cut -f 1 -d ' ' | xargs opkg upgrade
+  ignore_errors: yes
+
 - name: Reboot
   block:
     - name: Reboot
@@ -48,5 +50,3 @@
       ignore_errors: yes
 
     - meta: reset_connection
-  when:
-    - openwrt_version == 'SNAPSHOT'
