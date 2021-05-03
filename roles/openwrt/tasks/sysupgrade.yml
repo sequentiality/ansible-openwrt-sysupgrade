@@ -1,13 +1,25 @@
 # https://openwrt.org/docs/guide-user/installation/sysupgrade.cli
 - name: Upgrade OpenWrt firmware
   block:
-    - name: Download firmware upgrade image and checksum
+    - name: Get OpenWrt firmware version data
+      uri:
+        url: "{{ openwrt_firmware_version_data }}"
+      register: version_data
+
+    - name: Get OpenWrt firmware device data
+      uri:
+        url: "{{ openwrt_firmware_device_data }}"
+      register: device_data
+
+    - name: Print OpenWrt firmware device data
+      ansible.builtin.debug:
+        var: device_data
+
+    - name: Download and verify firmware upgrade image
       get_url:
-        url: "{{ item }}"
+        url: "{{ version_data.json.image_url | regex_replace('/{target}') }}/{{ openwrt_platform }}/{{ device_data | community.general.json_query('json.images[?type==`sysupgrade`].name') | join() }}"
         dest: /tmp
-      with_items:
-        - "{{ openwrt_sysupgrade_bin }}"
-        - "{{ openwrt_sha256sums }}"
+        checksum: "sha256:{{ device_data | community.general.json_query('json.images[?type==`sysupgrade`].sha256') | join() }}"
 
     - name: Set root shell to ash
       # ansible.builtin.user:
@@ -17,13 +29,6 @@
         path: /etc/passwd
         regexp: "/usr/bin/zsh"
         replace: "/bin/ash"
-
-    - name: Verify firmware checksum
-      ansible.builtin.shell: sha256sum -c sha256sums 2>/dev/null | grep OK
-      args:
-        chdir: /tmp
-      register: result
-      failed_when: result.rc != 0
 
     - name: Flash firmware
       ansible.builtin.shell: sysupgrade -q /tmp/*.bin

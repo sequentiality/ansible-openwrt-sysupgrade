@@ -5,12 +5,11 @@ openwrt_platform: ramips/mt7621
 # openwrt_device: xiaomi_mi-router-4
 openwrt_device: xiaomi_redmi-router-ac2100
 # openwrt_version: SNAPSHOT
-openwrt_version: 21.02.0-rc1
+openwrt_version: 21.02-SNAPSHOT
 
-openwrt_downloads_url: https://downloads.openwrt.org
-openwrt_downloads_dir: "{{ openwrt_downloads_url }}/{% if openwrt_version == 'SNAPSHOT' %}snapshots{% else %}releases/{{ openwrt_version }}{% endif %}/targets/{{ openwrt_platform }}"
-openwrt_sysupgrade_bin: "{{ openwrt_downloads_dir }}/openwrt-{% if openwrt_version == 'SNAPSHOT' %}{% else %}{{ openwrt_version }}-{% endif %}{{ openwrt_platform | replace('/','-') }}-{{ openwrt_device }}-squashfs-sysupgrade.bin"
-openwrt_sha256sums: "{{ openwrt_downloads_dir }}/sha256sums"
+openwrt_firmware_url: https://firmware-selector.openwrt.org
+openwrt_firmware_version_data: "{{ openwrt_firmware_url }}/data/{{ openwrt_version }}/overview.json"
+openwrt_firmware_device_data: "{{ openwrt_firmware_url }}/data/{{ openwrt_version }}/{{ openwrt_platform }}/{{ openwrt_device }}.json"
 
 openwrt_opkg_adblock:
   - adblock
