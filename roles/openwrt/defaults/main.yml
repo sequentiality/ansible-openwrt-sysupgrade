@@ -5,7 +5,7 @@ openwrt_platform: ramips/mt7621
 # openwrt_device: xiaomi_mi-router-4
 openwrt_device: xiaomi_redmi-router-ac2100
 # openwrt_version: SNAPSHOT
-openwrt_version: 21.02-SNAPSHOT
+openwrt_version: 21.02.0-rc2
 
 openwrt_firmware_url: https://firmware-selector.openwrt.org
 openwrt_firmware_version_data: "{{ openwrt_firmware_url }}/data/{{ openwrt_version }}/overview.json"
