@@ -5,6 +5,11 @@
     force: maintainer
     update_cache: yes
 
+- name: Install packages
+  community.general.opkg:
+    name: "{{ item }}"
+  with_items: "{{ openwrt_opkg }}"
+
 - name: Install adblock
   community.general.opkg:
     name: "{{ item }}"

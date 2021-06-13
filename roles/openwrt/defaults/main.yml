@@ -11,6 +11,10 @@ openwrt_firmware_url: https://firmware-selector.openwrt.org
 openwrt_firmware_version_data: "{{ openwrt_firmware_url }}/data/{{ openwrt_version }}/overview.json"
 openwrt_firmware_device_data: "{{ openwrt_firmware_url }}/data/{{ openwrt_version }}/{{ openwrt_platform }}/{{ openwrt_device }}.json"
 
+openwrt_opkg:
+  - irqbalance
+  - speedtest-netperf
+
 openwrt_opkg_adblock:
   - adblock
   - luci-app-adblock
