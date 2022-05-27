@@ -1,5 +1,5 @@
 # https://openwrt.org/docs/guide-user/installation/sysupgrade.cli
-- name: Download and verify firmware upgrade image
+- name: Download and verify OpenWrt firmware upgrade image
   block:
     - name: (OpenWrt Firmware Selector) Get firmware version data
       uri:
@@ -27,19 +27,23 @@
         dest: /tmp
         checksum: "sha256:{{ openwrt_downloads_sha256sums }}"
 
-- name: Set root shell to ash
-  # ansible.builtin.user:
-  #   name: root
-  #   shell: /bin/ash
-  ansible.builtin.replace:
-    path: /etc/passwd
-    regexp: "/usr/bin/zsh"
-    replace: "/bin/ash"
+- name: Upgrade OpenWrt firmware
+  block:
+    - name: Set root shell to ash
+      # ansible.builtin.user:
+      #   name: root
+      #   shell: /bin/ash
+      ansible.builtin.replace:
+        path: /etc/passwd
+        regexp: "/usr/bin/zsh"
+        replace: "/bin/ash"
 
-- name: Flash firmware
-  ansible.builtin.shell: sysupgrade -q /tmp/*.bin
+    - name: Flash firmware
+      ansible.builtin.shell: sysupgrade -q /tmp/*.bin
 
-- meta: reset_connection
+    - meta: reset_connection
 
-- pause:
-    minutes: 2
+    - name: Wait 300 seconds, but only start checking after 60 seconds
+      wait_for_connection:
+        delay: 60
+        timeout: 300
