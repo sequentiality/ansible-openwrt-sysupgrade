@@ -46,12 +46,12 @@
 
 - name: Mass upgrade of all “upgradable” packages
   ansible.builtin.shell: opkg update && opkg list-upgradable | cut -f 1 -d ' ' | xargs opkg upgrade
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Reboot
   block:
     - name: Reboot
       ansible.builtin.command: reboot
-      ignore_errors: yes
+      ignore_errors: true
 
     - meta: reset_connection

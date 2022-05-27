@@ -5,11 +5,17 @@ openwrt_platform: ramips/mt7621
 # openwrt_device: xiaomi_mi-router-4
 openwrt_device: xiaomi_redmi-router-ac2100
 # openwrt_version: SNAPSHOT
-openwrt_version: 21.02.3
+openwrt_version: 22.03.0-rc3
 
+# OpenWrt Firmware Selector: Development Snapshots, Stable Release
 openwrt_firmware_url: https://firmware-selector.openwrt.org
 openwrt_firmware_version_data: "{{ openwrt_firmware_url }}/data/{{ openwrt_version }}/overview.json"
 openwrt_firmware_device_data: "{{ openwrt_firmware_url }}/data/{{ openwrt_version }}/{{ openwrt_platform }}/{{ openwrt_device }}.json"
+
+# OpenWrt Downloads: Upcoming Stable Release, Stable Release
+openwrt_downloads_url: https://downloads.openwrt.org
+openwrt_downloads_sha256sums: "{{ openwrt_downloads_url }}/releases/{{ openwrt_version }}/targets/{{ openwrt_platform }}/sha256sums"
+openwrt_downloads_sysupgrade: "{{ openwrt_downloads_url }}/releases/{{ openwrt_version }}/targets/{{ openwrt_platform }}/openwrt-{{ openwrt_version }}-{{ openwrt_platform | regex_replace('/', '-') }}-{{ openwrt_device }}-squashfs-sysupgrade.bin"
 
 openwrt_opkg:
   - irqbalance

@@ -1,39 +1,45 @@
 # https://openwrt.org/docs/guide-user/installation/sysupgrade.cli
-- name: Upgrade OpenWrt firmware
+- name: Download and verify firmware upgrade image
   block:
-    - name: Get OpenWrt firmware version data
+    - name: (OpenWrt Firmware Selector) Get firmware version data
       uri:
         url: "{{ openwrt_firmware_version_data }}"
       register: version_data
 
-    - name: Get OpenWrt firmware device data
+    - name: (OpenWrt Firmware Selector) Get firmware device data
       uri:
         url: "{{ openwrt_firmware_device_data }}"
       register: device_data
 
-    - name: Print OpenWrt firmware device data
+    - name: (OpenWrt Firmware Selector) Print firmware device data
       ansible.builtin.debug:
         var: device_data
 
-    - name: Download and verify firmware upgrade image
+    - name: (OpenWrt Firmware Selector) Download and verify firmware upgrade image
       get_url:
         url: "{{ version_data.json.image_url | regex_replace('/{target}') }}/{{ openwrt_platform }}/{{ device_data | community.general.json_query('json.images[?type==`sysupgrade`].name') | join() }}"
         dest: /tmp
         checksum: "sha256:{{ device_data | community.general.json_query('json.images[?type==`sysupgrade`].sha256') | join() }}"
+  rescue:
+    - name: (OpenWrt Downloads) Download and verify firmware upgrade image
+      get_url:
+        url: "{{ openwrt_downloads_sysupgrade }}"
+        dest: /tmp
+        checksum: "sha256:{{ openwrt_downloads_sha256sums }}"
 
-    - name: Set root shell to ash
-      # ansible.builtin.user:
-      #   name: root
-      #   shell: /bin/ash
-      ansible.builtin.replace:
-        path: /etc/passwd
-        regexp: "/usr/bin/zsh"
-        replace: "/bin/ash"
+- name: Set root shell to ash
+  # ansible.builtin.user:
+  #   name: root
+  #   shell: /bin/ash
+  ansible.builtin.replace:
+    path: /etc/passwd
+    regexp: "/usr/bin/zsh"
+    replace: "/bin/ash"
 
-    - name: Flash firmware
-      ansible.builtin.shell: sysupgrade -q /tmp/*.bin
+- name: Flash firmware
+  ansible.builtin.shell: sysupgrade -q /tmp/*.bin
 
-    - meta: reset_connection
+- meta: reset_connection
 
-    - pause:
-        minutes: 2
+- pause:
+    minutes: 2
