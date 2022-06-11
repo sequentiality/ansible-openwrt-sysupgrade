@@ -5,7 +5,7 @@
   tasks:
     # https://openwrt.org/docs/guide-user/services/python
     - name: Install python3
-      raw: opkg update && opkg install python3
+      raw: command -v python3 || opkg update && opkg install python3
       tags:
         - sysupgrade
 
@@ -17,7 +17,7 @@
 
     # https://openwrt.org/docs/guide-user/services/python
     - name: Install python3
-      raw: opkg update && opkg install python3
+      raw: command -v python3 || opkg update && opkg install python3
       tags:
         - bootstrap
 
