@@ -6,7 +6,7 @@ Set platform, device and version:
 ```
 openwrt_platform: ramips/mt7621
 openwrt_device: xiaomi_mi-router-4
-openwrt_version: 22.03.0-rc3
+openwrt_version: 22.03.0-rc5
 ```
 
 ## Run playbook
