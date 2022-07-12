@@ -12,7 +12,7 @@ openwrt_version: 22.03.0-rc5
 ## Run playbook
 Run master playbook:
 ```
-ansible-playbook -i production site.yml
-ansible-playbook -i production site.yml -t sysupgrade
+ansible-playbook -i production site.yml --extra-vars "openwrt_platform=ramips/mt7621 openwrt_device=xiaomi_redmi-router-ac2100 openwrt_version=SNAPSHOT"
+ansible-playbook -i production site.yml -t sysupgrade --extra-vars "openwrt_platform=mediatek/mt7622 openwrt_device=xiaomi_redmi-router-ax6s openwrt_version=22.03.0-rc5"
 ansible-playbook -i production site.yml -t bootstrap
 ```
