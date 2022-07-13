@@ -18,6 +18,7 @@ openwrt_downloads_sysupgrade: "{{ openwrt_downloads_url }}/releases/{{ openwrt_v
 openwrt_opkg:
   - irqbalance
   - speedtest-netperf
+  - ethtool
 
 openwrt_opkg_adblock:
   - adblock
