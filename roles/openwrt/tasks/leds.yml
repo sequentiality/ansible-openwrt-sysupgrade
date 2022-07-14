@@ -1,0 +1,13 @@
+- name: Job to turn off LEDs
+  ansible.builtin.cron:
+    name: "turn off leds"
+    minute: "0"
+    hour: "20"
+    job: "for led in blue:power blue:net; do echo 0 > /sys/class/leds/$led/brightness; done"
+
+- name: Job to turn on LEDs
+  ansible.builtin.cron:
+    name: "turn on leds"
+    minute: "0"
+    hour: "6"
+    job: "echo 255 > /sys/class/leds/blue:power/brightness; service led restart"
