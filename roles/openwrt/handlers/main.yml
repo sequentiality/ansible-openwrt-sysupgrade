@@ -1,2 +1,6 @@
 ---
 # handlers file for openwrt
+- name: Restart cron
+  ansible.builtin.service:
+    name: cron
+    state: restarted

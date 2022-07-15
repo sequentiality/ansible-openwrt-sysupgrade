@@ -4,6 +4,7 @@
     minute: "0"
     hour: "20"
     job: "for led in blue:power blue:net; do echo 0 > /sys/class/leds/$led/brightness; done"
+  notify: "Restart cron"
 
 - name: Job to turn on LEDs
   ansible.builtin.cron:
@@ -11,3 +12,4 @@
     minute: "0"
     hour: "6"
     job: "echo 255 > /sys/class/leds/blue:power/brightness; service led restart"
+  notify: "Restart cron"
