@@ -2,7 +2,7 @@
   ansible.builtin.cron:
     name: "turn off leds"
     minute: "0"
-    hour: "20"
+    hour: "17"
     job: "for led in blue:power blue:net; do echo 0 > /sys/class/leds/$led/brightness; done"
   notify: "Restart cron"
 
