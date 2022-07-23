@@ -23,7 +23,6 @@ openwrt_opkg:
 openwrt_opkg_adblock:
   - adblock
   - luci-app-adblock
-  - curl
 
 openwrt_opkg_prometheus_node_exporter_lua:
   - prometheus-node-exporter-lua
@@ -38,4 +37,3 @@ openwrt_opkg_zsh:
   - zsh
   - ca-certificates
   - git-http
-  # - curl
