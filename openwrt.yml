@@ -26,9 +26,3 @@
         tasks_from: bootstrap
       tags:
         - bootstrap
-
-    - import_role:
-        name: openwrt
-        tasks_from: leds
-      tags:
-        - leds
