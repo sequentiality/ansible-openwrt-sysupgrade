@@ -48,6 +48,8 @@
   ansible.builtin.shell: opkg update && opkg list-upgradable | cut -f 1 -d ' ' | xargs opkg upgrade
   ignore_errors: true
 
+- import_tasks: leds.yml
+
 - name: Reboot
   block:
     - name: Reboot

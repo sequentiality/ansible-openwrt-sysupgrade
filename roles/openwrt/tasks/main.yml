@@ -3,4 +3,3 @@
 
 - import_tasks: sysupgrade.yml
 - import_tasks: bootstrap.yml
-- import_tasks: leds.yml
