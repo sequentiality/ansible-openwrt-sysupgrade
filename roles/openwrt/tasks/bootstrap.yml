@@ -44,9 +44,9 @@
     - name: Install oh-my-zsh
       ansible.builtin.command: sh /tmp/install.sh --unattended
 
-- name: Mass upgrade of all “upgradable” packages
-  ansible.builtin.shell: opkg update && opkg list-upgradable | cut -f 1 -d ' ' | xargs opkg upgrade
-  ignore_errors: true
+# - name: Mass upgrade of all “upgradable” packages
+#   ansible.builtin.shell: opkg update && opkg list-upgradable | cut -f 1 -d ' ' | xargs opkg upgrade
+#   ignore_errors: true
 
 - import_tasks: leds.yml
 
