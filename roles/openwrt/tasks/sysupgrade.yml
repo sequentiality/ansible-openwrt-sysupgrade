@@ -45,4 +45,4 @@
     - meta: reset_connection
 
     - pause:
-        minutes: 2
+        minutes: 3
