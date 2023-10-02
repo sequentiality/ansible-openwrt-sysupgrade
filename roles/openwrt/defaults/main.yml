@@ -3,7 +3,7 @@
 
 openwrt_platform: mediatek/mt7622
 openwrt_device: xiaomi_redmi-router-ax6s
-openwrt_version: 23.05.0-rc3
+openwrt_version: 23.05.0-rc4
 
 # OpenWrt Firmware Selector: Development Snapshots, Stable Release
 openwrt_firmware_url: https://firmware-selector.openwrt.org
